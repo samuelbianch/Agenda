@@ -15,4 +15,4 @@ void leitura(p a,int tam);
 void escrita(p a,int tam);
 void escrita_nome_ordem_alfa_cres(p a,int tam);
 void exclui(p a, int id);
-void menu();
+void menu(p minha_agenda);

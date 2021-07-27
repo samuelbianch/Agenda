@@ -24,35 +24,42 @@ void ordena_nome_cresc(p a,int tam)
 void leitura(p a, int tam)
 {
 	p aux;
+	//printf("\nTam = %d\n", tam);
+	aux = malloc(tam*sizeof(p));
 	int i;
-	for(i=0;i<tam;i++)
-	{
+	for(i=0;i<tam;i++){
+		
 		fflush(stdin);
 		printf("Digite seu nome: ");
-		scanf("%c[^\n]",&aux->nome);
+		scanf("%[^\n]%*c", &aux->nome);
+		
 		fflush(stdin);
 		printf("Digite seu telefone: ");
-		scanf("%c[^\n]",&aux->telefone);
+		scanf("%[^\n]%*c", &aux->telefone);
+		
 		fflush(stdin);
 		printf("Digite seu e-mail: ");
-		scanf("%c[^\n]",&aux->email);
+		scanf("%[^\n]%*c", &aux->email);
+		
 		fflush(stdin);
 		printf("Digite sua cidade: ");
-		scanf("%c[^\n]",&aux->cidade);
+		scanf("%[^\n]%*c", &aux->cidade);
+		
 		fflush(stdin);
 		printf("Digite seu estado (dois caracteres): ");
-		scanf("%c[^\n]",&aux->estado);
+		scanf("%[^\n]%*c", &aux->estado);
+		
 		fflush(stdin);
 		aux->atv = 1;
+		//printf("\n aux->atv - OK\n");
 		aux->id = cont;
+		//printf("\n aux->id = cont - OK\n");
 		cont++;
-		a[i] = *(aux);//gravando no vetor
-			/*if(i%2==0)
-				minha_agenda[i]=c;
-			else
-				minha_agenda[i]=d;*/	
+		a[i] = *(aux);
+		//printf("\n a[i] = *(aux); - OK\n");	
 	}
-	menu();
+	printf("\nOK\n");
+	menu(a);
 }
 void escrita(p a, int tam)
 {
@@ -60,6 +67,7 @@ void escrita(p a, int tam)
 	for(i=0;i<tam;i++)
 	{
 		//(&a[i])->id = cont;
+		printf("\n-----Contado [%d]-----", (&a[i])->id);
 		fflush(stdin);
 		printf("\nNome: %s",(&a[i])->nome);
 		fflush(stdin);
@@ -69,10 +77,11 @@ void escrita(p a, int tam)
 		fflush(stdin);
 		printf("\nCidade: %s",(&a[i])->cidade);
 		fflush(stdin);
-		printf("\nEstado: %s",(&a[i])->estado);
+		printf("\nEstado: %s\n",(&a[i])->estado);
 		fflush(stdin);
 		//cont ++;
 	}
+	menu(a);
 }
 
 void escrita_nome_ordem_alfa_cres(p a, int tam)
@@ -84,10 +93,10 @@ void menuListar(){
 	int i;
 	
 	printf("Listar por:\n");
-	printf("1 - Nome ordem alfabÃ©tica crescente\n");
-	printf("2 - Nome ordem alfabÃ©tica decrescente\n");
-	printf("3 - Cidade ordem alfabÃ©tica crescente\n");
-	printf("4 - Cidade ordem alfabÃ©tica decrescente\n");
+	printf("1 - Nome ordem alfabética crescente\n");
+	printf("2 - Nome ordem alfabética decrescente\n");
+	printf("3 - Cidade ordem alfabética crescente\n");
+	printf("4 - Cidade ordem alfabética decrescente\n");
 	scanf("%d", &i);
 	
 }
@@ -101,13 +110,9 @@ void menuListar(){
 	}
 	
 }*/
-void menu(){
+void menu(p minha_agenda){
 	int i, id;
-	p *minha_agenda;
-	int tamanho=10;
 	int tam;
-	minha_agenda = malloc(tamanho*sizeof(p));
-	
 	
 	//printf("Bem vindo!\n\n");
 	printf("O que deseja fazer?\n");
