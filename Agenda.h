@@ -12,7 +12,8 @@ struct pessoa{
 typedef struct pessoa *p;//tipo
 
 void leitura(p a,int tam);
-void escrita(p a,int tam);
+void escrita(p a);
 void escrita_nome_ordem_alfa_cres(p a,int tam);
 void exclui(p a, int id);
 void menu(p minha_agenda);
+void busca(p a);
