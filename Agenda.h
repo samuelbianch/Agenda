@@ -1,4 +1,3 @@
-//definicao da estrutura
 struct pessoa{
 	int id;
 	char nome[40];
@@ -9,11 +8,26 @@ struct pessoa{
 	int atv;
 };
 
-typedef struct pessoa *p;//tipo
+void menu();
 
-void leitura(p a,int tam);
-void escrita(p a);
-void escrita_nome_ordem_alfa_cres(p a,int tam);
-void exclui(p a, int id);
-void menu(p minha_agenda);
-void busca(p a);
+void cadastrar();
+
+void excluir();
+
+void menuListar();
+
+void exibeListagem();
+
+void ordenaNomeCrescente();
+
+void ordenaNomeDecrescente();
+
+void ordenaEstado(pessoa vetor[], int esq, int dir);
+
+int dividir(pessoa vetor[], int esq, int dir);
+
+void ordenaCidade();
+
+void menuBuscar();
+
+

@@ -2,196 +2,306 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
+#include <windows.h>
 #include "Agenda.h"
 
-int cont=0;
+pessoa contatos[10];
+int cont = 0;
+int contId = 0;
 
-void ordena_nome_cresc(p a,int tam)
-{
-	int i,j;
-	p aux;
-	for(i=0;i<tam-1;i++)
-		for(j=i+1;j<tam;j++)
-		{
-			if(strcmp((&a[i])->nome,(&a[j])->nome)>0)
-			{
-				*(aux)= a[i];
-				a[i]=a[j];
-				a[j] = *(aux);
+void menu() {
+	char opc, sair;
+	
+	system("cls");
+	printf(" ____________________ \n");
+	printf("|                    |\n");
+	printf("| Agenda de Contatos |\n");
+	printf("|____________________|\n");
+	printf("| Opcoes:            |\n");
+	printf("| 1 - Cadastrar      |\n");
+	printf("| 2 - Excluir        |\n");
+	printf("| 3 - Listar         |\n");
+	printf("| 4 - Buscar         |\n");
+	printf("| 0 - Sair           |\n");
+	printf("|____________________|\n");
+	
+	printf("Opcao: ");
+	fflush(stdin);
+	scanf("%c", &opc);
+	
+	if (opc == '1') { // cadastrar
+		cadastrar();
+	} else if (opc == '2') { // excluir
+		excluir();
+	} else if (opc == '3') { // listar
+		menuListar();
+	} else if (opc == '4') { // buscar
+		
+	} else if (opc == '0') {
+		system("cls");
+		printf("Deseja mesmo sair? (s/n): ");
+		fflush(stdin);
+		scanf("%c", &sair);
+		
+		if (sair == 's' || sair == 'S') {
+			system("cls");
+			printf("Ate mais...\n");
+			system("pause");
+		} else {
+			menu();
+		}
+	} else {
+		menu();
+	}
+}
+
+void cadastrar() {
+	char novoCadastro;
+	
+	system("cls");
+	printf("Verificando agenda...\n");
+	system("pause");
+	
+	if (cont == 10) {
+		printf("Erro! Agenda ja possui 10 registros!\n");
+		system("cls");
+		menu();
+	} else {
+		printf("\nVerificacao concluida! Agenda possui espacos disponiveis!\n");
+		system("pause");
+		
+		printf("\nInforme os dados do novo contato:\n");
+		printf("    Nome: ");
+		fflush(stdin);
+		scanf("%[^\n]", contatos[cont].nome);
+		printf("    Telefone: ");
+		fflush(stdin);
+		scanf("%[^\n]", contatos[cont].telefone);
+		printf("    E-mail: ");
+		fflush(stdin);
+		scanf("%[^\n]", contatos[cont].email);
+		printf("    Estado (sigla apenas): ");
+		fflush(stdin);
+		scanf("%[^\n]", contatos[cont].estado);
+		printf("    Cidade: ");
+		fflush(stdin);
+		scanf("%[^\n]", contatos[cont].cidade);
+		
+		contatos[cont].id = contId;
+		contatos[cont].atv = 1;
+		
+		
+		system("cls");
+		printf("Dados cadastrados: \n");
+		printf("    ID: %d\n", contatos[cont].id);
+		printf("    Nome: %s\n", contatos[cont].nome);
+		printf("    Telefone: %s\n", contatos[cont].telefone);
+		printf("    E-mail: %s\n", contatos[cont].email);
+		printf("    Estado (sigla apenas): %s\n", contatos[cont].estado);
+		printf("    Cidade: %s\n", contatos[cont].cidade);
+		cont++;
+		contId++;
+		system("pause");
+		menu();
+	}
+}
+
+void excluir() {
+	int idBusca, i, posi;
+	bool achou = false;
+	char excluir;
+	
+	system("cls");
+	
+	if (cont == 0) {
+		printf("Nao existe nenhum contato cadastrado!\n");
+		system("pause");
+		menu();
+	} else {
+		printf("Informe o id do contato: ");
+		fflush(stdin);
+		scanf("%d", &idBusca);
+		
+		for(i=0; i<cont; i++) {
+			if(contatos[i].id == idBusca && contatos[i].atv == 1) {
+				achou = true;
+				printf("\nDados encontrados: \n");
+				printf("    Nome: %s\n", contatos[i].nome);
+				printf("    Telefone: %s\n", contatos[i].telefone);
+				printf("    E-mail: %s\n", contatos[i].email);
+				printf("    Estado (sigla apenas): %s\n", contatos[i].estado);
+				printf("    Cidade: %s\n", contatos[i].cidade);
+				posi = i;
+				break;
 			}
 		}
-	
-}
-void leitura(p a, int tam)
-{
-	p aux;
-	int i;
-	printf("\nTam = %d\n", tam);
-	if(cont==0){
-		aux = malloc(sizeof(p));
-	}
-	
-	printf("\nAloco a memoria\n");
-	for(i=0;i<tam;i++){
-		printf("\nEntro no FOR\n");
-		fflush(stdin);
-		printf("Digite seu nome: ");
-		scanf("%[^\n]%*c", &aux->nome);
 		
-		fflush(stdin);
-		printf("Digite seu telefone: ");
-		scanf("%[^\n]%*c", &aux->telefone);
-		
-		fflush(stdin);
-		printf("Digite seu e-mail: ");
-		scanf("%[^\n]%*c", &aux->email);
-		
-		fflush(stdin);
-		printf("Digite sua cidade: ");
-		scanf("%[^\n]%*c", &aux->cidade);
-		
-		fflush(stdin);
-		printf("Digite seu estado (dois caracteres): ");
-		scanf("%[^\n]%*c", &aux->estado);
-		
-		fflush(stdin);
-		aux->atv = 1;
-		//printf("\n aux->atv - OK\n");
-		aux->id = cont;
-		//printf("\n aux->id = cont - OK\n");
-		a[cont] = *(aux);
-		cont++;
-		//printf("\n a[i] = *(aux); - OK\n");	
-	}
-	printf("\nOK\n");
-	menu(a);
-}
-void escrita(p a)
-{
-	//system("cls");
-	int i;
-	for(i=0;i<cont;i++)
-	{
-		if(a[i].atv == 1){
-			printf("\n-----Contato [%d]-----", (&a[i])->id);
-		fflush(stdin);
-		printf("\nNome: %s",(&a[i])->nome);
-		fflush(stdin);
-		printf("\nTelefone: %s",(&a[i])->telefone);
-		fflush(stdin);
-		printf("\nE-mail: %s",(&a[i])->email);
-		fflush(stdin);
-		printf("\nCidade: %s",(&a[i])->cidade);
-		fflush(stdin);
-		printf("\nEstado: %s\n",(&a[i])->estado);
-		fflush(stdin);
-		printf("\n");
+		if (achou == true) {
+			printf("\nDeseja mesmo excluir o contato? (s/n): ");
+			fflush(stdin);
+			scanf("%c", &excluir);
+			
+			if(excluir == 's' || excluir == 'S') {
+				contatos[posi].atv = 0;
+				
+				pessoa aux;
+				
+				aux = contatos[cont-1];
+				contatos[cont-1] = contatos[posi];
+				contatos[posi] = aux;
+				
+				cont--;
+				
+				printf("\nContato excluido com sucesso!\n");
+				system("pause");
+				menu();
+			} else {
+				menu();
+			}
+		} else {
+			printf("\nID nao encontrado!\n");
+			system("pause");
+			menu();
 		}
 	}
-
-	menu(a);
 }
 
-void escrita_nome_ordem_alfa_cres(p a, int tam)
-{
-	ordena_nome_cresc(a,tam);
-	escrita(a);
+void menuListar() {
+	char opcListar;
+	
+	system("cls");
+	
+	if (cont == 0) {
+		printf("Nao existe nenhum contato cadastrado!\n");
+		system("pause");
+		menu();
+	} else {
+		printf("Escolha uma opcao de listagem: \n");
+		printf("1 - Por nome (Crescente)\n");
+		printf("2 - Por nome (Decrescente)\n");
+		printf("3 - Por estado (Decrescente)\n");
+		printf("4 - Por cidade (Decrescente)\n");
+		printf("0 - Voltar\n");
+		printf("Opcao: ");
+		fflush(stdin);
+		scanf("%c", &opcListar);
+		
+		if (opcListar == '1') {
+			ordenaNomeCrescente();
+			exibeListagem();
+			system("pause");
+			menuListar();
+		} else if (opcListar == '2') {
+			ordenaNomeDecrescente();
+			exibeListagem();
+			system("pause");
+			menuListar();
+		} else if (opcListar == '3') {
+			ordenaEstado(contatos, 0, cont);
+			exibeListagem();
+			system("pause");
+			menuListar();
+		} else if (opcListar == '4') {
+			ordenaCidade();
+			exibeListagem();
+			system("pause");
+			menuListar();
+		} else if (opcListar == '0') {
+			menu();
+		} else {
+			menuListar();
+		}	
+	}
 }
-void menuListar(){
+
+void exibeListagem() {
 	int i;
-	
-	printf("Listar por:\n");
-	printf("1 - Nome ordem alfabética crescente\n");
-	printf("2 - Nome ordem alfabética decrescente\n");
-	printf("3 - Cidade ordem alfabética crescente\n");
-	printf("4 - Cidade ordem alfabética decrescente\n");
-	scanf("%d", &i);
-	
-}
-
-void exclui(p a, int id){
-	int i;
-	
-	for(i=0; i<cont; i++){
-		if (a[i].id == id){
-			(a)[i].atv = 0;
+	for(i=0; i<cont; i++) {
+		if (contatos[i].atv == 1) {
+			printf("Contato %d\n", i+1);
+			printf("    ID: %d\n", contatos[i].id);
+			printf("    Nome: %s\n", contatos[i].nome);
+			printf("    Telefone: %s\n", contatos[i].telefone);
+			printf("    E-mail: %s\n", contatos[i].email);
+			printf("    Estado (sigla apenas): %s\n", contatos[i].estado);
+			printf("    Cidade: %s\n", contatos[i].cidade);	
 		}
 	}
-	menu(a);
 }
 
-void busca(p a){
-	int opc;
+void ordenaNomeCrescente() {
 	
-	printf("\nComo você deseja buscar seus contatos?\n");
-	printf("1 - Nome\n");
-	printf("2 - Cidade\n");
-	printf("3 - Estado\n");
-	printf("4 - Voltar\n");
-	scanf("%d", &opc);
+	int i, j;
+	pessoa aux;
 	
-	switch(opc){
-		case 1:
-			
-		break;
-		
-		case 2:
-			
-		break;
-		
-		case 3:
-			
-		break;
-		
-		case 4:
-			menu(a);
-		break;
-		
-		default:
-			return;
+	for(i=0; i<cont; i++) {
+		for(j=i+1; j<cont; j++) {
+			if(strcmp(contatos[i].nome, contatos[j].nome) > 0) {
+				aux = contatos[i];
+				contatos[i] = contatos[j];
+				contatos[j] = aux;
+			}
+		}
+	}
+	
+}
+
+void ordenaNomeDecrescente() {
+	int i, j;
+	pessoa aux;
+	
+	for(i=0; i<cont; i++) {
+		for(j=i+1; j<cont; j++) {
+			if(strcmp(contatos[i].nome, contatos[j].nome) < 0) {
+				aux = contatos[i];
+				contatos[i] = contatos[j];
+				contatos[j] = aux;
+			}
+		}
 	}
 }
 
-
-void menu(p minha_agenda){
-	int i, id;
-	int tam;
-	//printf("Bem vindo!\n\n");
-	printf("O que deseja fazer?\n");
-	printf("1 - Cadastrar\n");
-	printf("2 - Excluir\n");
-	printf("3 - Listar\n");
-	printf("4 - Buscar\n");
-	printf("5 - Sair\n");
-	scanf("%d", &i);
-	
-	switch(i){
-		case 1:
-			printf("\nQuantas pessoas deseja cadastrar: ");
-			scanf("%d", &tam);
-			leitura(minha_agenda, tam);
-		break;
-		
-		case 2:
-			printf("\nExcluir qual pessoa?");
-			scanf("%d", &id);
-			exclui(minha_agenda, id);
-		break;
-		
-		case 4:
-			busca(minha_agenda);
-		break;
-		
-		case 3:
-			escrita(minha_agenda);
-		break;
-		
-		case 5:
-			return;
-		break;
+void ordenaEstado(pessoa vetor[], int esq, int dir) {
+	int pos;
+	if (esq<dir) {
+		pos = dividir(vetor, esq, dir);
+		ordenaEstado(vetor, esq, pos-1);
+		ordenaEstado(vetor, pos+1, dir);
 	}
-
 }
 
-//void escrita(tipo v[],int tamanho);
+int dividir(pessoa vetor[], int esq, int dir) {
+	pessoa aux;
+	int i, contador=esq;
+	
+	for(i=esq+1; i<=dir; i++) {
+		if(strcmp(vetor[i].estado, vetor[esq].estado)>0) {
+			contador++;
+			aux = vetor[i];
+			vetor[i] = vetor[contador];
+			vetor[contador] = aux;
+		}
+	}
+	aux = vetor[esq];
+	vetor[esq] = vetor[contador];
+	vetor[contador] = aux;
+	
+	return contador;
+}
+
+void ordenaCidade() {
+	int i, j;
+	pessoa aux;
+	
+	for(i=0; i<cont; i++) {
+		for(j=i+1; j<cont; j++) {
+			if(strcmp(contatos[i].cidade, contatos[j].cidade) < 0) {
+				aux = contatos[i];
+				contatos[i] = contatos[j];
+				contatos[j] = aux;
+			}
+		}
+	}
+}
+
 

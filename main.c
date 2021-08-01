@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include "Agenda.h"
 
-int main(int argc, char *argv[]) {
-	p minha_agenda;
-	int tamanho=10;
-	minha_agenda = malloc(tamanho*sizeof(p));
+int main(int argc, char** argv) {
 	
-	menu(minha_agenda);
+	menu();
+	
 	return 0;
 }
